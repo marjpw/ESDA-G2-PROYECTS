@@ -121,3 +121,51 @@ Inicio
         n2 ← n2 → sig
     FinMientras
 Fin
+```
+---
+## 5. Ordenar Lista Circular por Intercambio (Burbuja)
+
+**Entrada:** `NodoIngreso*` ingreso  
+**Salida:** `NodoIngreso*` ingreso ordenado
+
+```plaintext
+Acción OrdenarLista (ingreso)
+Inicio
+    aux ← ingreso
+    aux2 ← ingreso
+    Repetir
+        Repetir
+            Si (aux → valor > aux2 → valor) Entonces
+                temp ← aux → valor
+                aux → valor ← aux2 → valor
+                aux2 → valor ← temp
+            FinSi
+            aux2 ← aux2 → sig
+        Hasta (aux2 = Null)
+        aux ← aux → sig
+        aux2 ← aux
+    Hasta (aux = Null)
+Fin
+```
+---
+## 6. Mostrar Lista de Personas por Ingreso
+
+**Entrada:** `NodoIngreso*` ingreso  
+**Salida:** Lista de personas en el ingreso
+
+```plaintext
+Acción MostrarLista (ingreso)
+Inicio
+    Si (ingreso → ultimo = Null) Entonces
+        Escribir "Ingreso vacío"
+    Sino
+        nodo ← ingreso → ultimo → sig
+        Mientras (nodo ≠ ingreso → ultimo) Hacer
+            Escribir nodo → valor → apellidosNombres
+            Escribir nodo → valor → edad
+            nodo ← nodo → sig
+        FinMientras
+        Escribir nodo → valor → apellidosNombres
+        Escribir nodo → valor → edad
+    FinSi
+Fin
