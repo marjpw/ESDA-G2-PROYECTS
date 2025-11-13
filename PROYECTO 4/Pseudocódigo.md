@@ -4,7 +4,7 @@ Este proyecto tiene como objetivo implementar el control de inventarios y órden
 
 ## 1. Registrar Producto en el Inventario (Pila UEPS)
 
-**Entrada:** Datos del producto p, Pila de productos pilaProductos 
+**Entrada:** Datos del producto = p, Pila de productos = pilaProductos 
 **Salida:** pilaProductos actualizada con el nuevo producto en el tope
 
 ```plaintext
@@ -27,7 +27,7 @@ Fin
 
 ## 2. Registrar Orden de Venta (Cola FIFO)
 
-**Entrada:** Datos de la orden o, Cola de órdenes pendientes colaOrdenes
+**Entrada:** Datos de la orden o, Cola de órdenes pendientes = colaOrdenes
 **Salida:** colaOrdenes actualizada con la orden encolada al final
 ```plaintext
 Acción RegistrarOrdenVenta (o, colaOrdenes)
@@ -50,11 +50,8 @@ Fin
 
 ## 3. Atender Orden de Venta (Actualizando Inventario y Ganancia)
 
-Entrada: Cola de órdenes pendientes colaOrdenes,
-Pila de productos pilaProductos,
-Cola de ventas procesadas colaVentas,
-Variable global gananciaTotal
-Salida: Orden atendida (si es posible), inventario y ganancia actualizados
+**Entrada:** Cola de órdenes pendientes = colaOrdenes, Pila de productos = pilaProductos, Cola de ventas procesadas = colaVentas, Variable global = gananciaTotal
+**Salida:** Orden atendida (si es posible), inventario y ganancia actualizados
 ```plaintext
 Acción AtenderOrden (colaOrdenes, pilaProductos, colaVentas, gananciaTotal)
 Inicio
@@ -124,9 +121,8 @@ Fin
 
 ## 4. Atender Orden Urgente por Código
 
-Entrada: int codigoOrdenBuscado, Cola de órdenes pendientes colaOrdenes,
-Pila de productos pilaProductos, Cola de ventas colaVentas, gananciaTotal
-Salida: Orden urgente atendida primero (si existe)
+**Entrada:** int codigoOrdenBuscado, Cola de órdenes pendientes = colaOrdenes, Pila de productos = pilaProductos, Cola de ventas = colaVentas, gananciaTotal
+**Salida:** Orden urgente atendida primero (si existe)
 ```plaintext
 Acción AtenderOrdenUrgente (codigoOrdenBuscado, colaOrdenes, pilaProductos, colaVentas, gananciaTotal)
 Inicio
@@ -168,8 +164,8 @@ Fin
 
 ## 5. Reporte de Ventas por Fecha
 
-Entrada: Cola de ventas procesadas colaVentas, string fechaBuscada
-Salida: Lista de ventas realizadas en la fecha indicada
+**Entrada:** Cola de ventas procesadas = colaVentas, string fechaBuscada
+**Salida:** Lista de ventas realizadas en la fecha indicada
 ```plaintext
 Acción ReporteVentasPorFecha (colaVentas, fechaBuscada)
 Inicio
@@ -208,8 +204,8 @@ Fin
 ---
 ## 6. Reporte de Ventas por Producto
 
-Entrada: Cola de ventas colaVentas, int codigoProductoBuscado
-Salida: Lista de ventas del producto indicado
+**Entrada:** Cola de ventas = colaVentas, int codigoProductoBuscado
+**Salida:** Lista de ventas del producto indicado
 ```plaintext
 Acción ReporteVentasPorProducto (colaVentas, codigoProductoBuscado)
 Inicio
@@ -248,8 +244,8 @@ Fin
 ---
 ## 7. Mostrar Productos que Exceden un Precio Dado
 
-Entrada: Pila de productos pilaProductos, real precioMinimo
-Salida: Lista de productos cuyo precio unitario es mayor al valor ingresado
+**Entrada:** Pila de productos = pilaProductos, real precioMinimo
+**Salida:** Lista de productos cuyo precio unitario es mayor al valor ingresado
 ```plaintext
 Acción MostrarProductosPorPrecio (pilaProductos, precioMinimo)
 Inicio
@@ -289,8 +285,8 @@ Fin
 ---
 ## 8. Reporte de Ganancia Total de la Tienda
 
-Entrada: Variable global gananciaTotal
-Salida: Monto total acumulado por las ventas
+**Entrada:** Variable global = gananciaTotal
+**Salida:** Monto total acumulado por las ventas
 ```plaintext
 Acción MostrarGananciaTienda (gananciaTotal)
 Inicio
