@@ -4,7 +4,7 @@ Este proyecto tiene como objetivo implementar el control de inventarios y órden
 
 ## 1. Registrar Producto en el Inventario (Pila UEPS)
 
-**Entrada:** Datos del producto p, Pila de productos pilaProductos
+**Entrada:** Datos del producto p, Pila de productos pilaProductos 
 **Salida:** pilaProductos actualizada con el nuevo producto en el tope
 
 ```plaintext
