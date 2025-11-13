@@ -12,7 +12,7 @@ Acción RegistrarProducto (p, pilaProductos)
 Inicio
     nuevoNodo ← CrearNodo(p)
 
-    // Operación básica de Pila: PUSH
+    //Pila
     Si (pilaProductos.tope = Null) Entonces
         pilaProductos.tope ← nuevoNodo
     Sino
@@ -34,7 +34,7 @@ Acción RegistrarOrdenVenta (o, colaOrdenes)
 Inicio
     nuevoNodo ← CrearNodo(o)
 
-    // Operación básica de Cola: ENCOLAR
+    //ENCOLAR
     Si (colaOrdenes.frente = Null) Entonces
         colaOrdenes.frente ← nuevoNodo
         colaOrdenes.fin ← nuevoNodo
@@ -42,7 +42,6 @@ Inicio
         colaOrdenes.fin.sig ← nuevoNodo
         colaOrdenes.fin ← nuevoNodo
     FinSi
-
     Escribir "Orden registrada correctamente"
 Fin
 ```
@@ -58,42 +57,37 @@ Inicio
     Si (colaOrdenes.frente = Null) Entonces
         Escribir "No hay órdenes pendientes"
     Sino
-        // Operación básica de Cola: DESENCOLAR
+        // DESENCOLAR
         nodoOrden ← colaOrdenes.frente
         colaOrdenes.frente ← colaOrdenes.frente.sig
 
         Si (colaOrdenes.frente = Null) Entonces
             colaOrdenes.fin ← Null
         FinSi
-
         orden ← nodoOrden.valor
         Eliminar nodoOrden
 
-        // Buscar producto en la pila de inventario usando una pila auxiliar
+        // Buscar producto en la pila
         Crear pilaAux
         productoEncontrado ← FALSO
 
         Mientras (pilaProductos.tope ≠ Null Y productoEncontrado = FALSO) Hacer
             nodoProd ← pilaProductos.tope
             pilaProductos.tope ← pilaProductos.tope.sig
-
             prod ← nodoProd.valor
-
             Si (prod.codigo = orden.codigoProducto) Entonces
                 productoEncontrado ← VERDADERO
-
                 Si (prod.existencia ≥ orden.cantidad) Entonces
                     prod.existencia ← prod.existencia - orden.cantidad
                     importe ← prod.precioUnitario * orden.cantidad
                     gananciaTotal ← gananciaTotal + importe
                     Escribir "Orden atendida. Importe: ", importe
-
                 Sino
                     Escribir "Stock insuficiente para el producto ", prod.codigo
                 FinSi
             FinSi
 
-            // Volvemos a apilar el nodo (con stock actualizado si era el buscado)
+            // Nodo con el stock actualizado
             nuevoNodoProd ← CrearNodo(prod)
             nuevoNodoProd.sig ← pilaAux.tope
             pilaAux.tope ← nuevoNodoProd
@@ -101,16 +95,15 @@ Inicio
             Eliminar nodoProd
         FinMientras
 
-        // Restaurar pila original desde pilaAux (para mantener UEPS)
+        // Restaurar pila original
         Mientras (pilaAux.tope ≠ Null) Hacer
             nodoProd ← pilaAux.tope
             pilaAux.tope ← pilaAux.tope.sig
-
             nodoProd.sig ← pilaProductos.tope
             pilaProductos.tope ← nodoProd
         FinMientras
 
-        // Registrar la orden atendida en la cola de ventas
+        // Registrar la orden en la cola
         Si (productoEncontrado = VERDADERO) Entonces
             Encolar(colaVentas, orden)
         FinSi
@@ -132,13 +125,11 @@ Inicio
         Crear colaAux
         ordenUrgente ← Null
 
-        // Buscar la orden en la cola usando solo operaciones básicas
+        // Buscar la orden en la cola
         Mientras (colaOrdenes.frente ≠ Null) Hacer
             nodo ← colaOrdenes.frente
             colaOrdenes.frente ← colaOrdenes.frente.sig
-
             orden ← nodo.valor
-
             Si (orden.codigoOrden = codigoOrdenBuscado Y ordenUrgente = Null) Entonces
                 ordenUrgente ← orden
                 Eliminar nodo        // No se pasa a la cola auxiliar
@@ -173,15 +164,12 @@ Inicio
         Escribir "No hay ventas registradas"
     Sino
         Crear colaAux
-
         Mientras (colaVentas.frente ≠ Null) Hacer
             nodo ← colaVentas.frente
             colaVentas.frente ← colaVentas.frente.sig
-
             venta ← nodo.valor
-
             Si (venta.fechaOrden = fechaBuscada) Entonces
-                Escribir "Orden: ", venta.codigoOrden,
+                Escribir "    Orden: ", venta.codigoOrden,
                          "  Producto: ", venta.codigoProducto,
                          "  Cantidad: ", venta.cantidad
             FinSi
@@ -194,7 +182,6 @@ Inicio
         Mientras (colaAux.frente ≠ Null) Hacer
             nodo ← colaAux.frente
             colaAux.frente ← colaAux.frente.sig
-
             Encolar(colaVentas, nodo.valor)
             Eliminar nodo
         FinMientras
@@ -217,15 +204,12 @@ Inicio
         Mientras (colaVentas.frente ≠ Null) Hacer
             nodo ← colaVentas.frente
             colaVentas.frente ← colaVentas.frente.sig
-
             venta ← nodo.valor
-
             Si (venta.codigoProducto = codigoProductoBuscado) Entonces
                 Escribir "Orden: ", venta.codigoOrden,
                          "  Fecha: ", venta.fechaOrden,
                          "  Cantidad: ", venta.cantidad
             FinSi
-
             Encolar(colaAux, venta)
             Eliminar nodo
         FinMientras
@@ -234,7 +218,6 @@ Inicio
         Mientras (colaAux.frente ≠ Null) Hacer
             nodo ← colaAux.frente
             colaAux.frente ← colaAux.frente.sig
-
             Encolar(colaVentas, nodo.valor)
             Eliminar nodo
         FinMientras
@@ -253,20 +236,17 @@ Inicio
         Escribir "No hay productos en el inventario"
     Sino
         Crear pilaAux
-
         Mientras (pilaProductos.tope ≠ Null) Hacer
             nodo ← pilaProductos.tope
             pilaProductos.tope ← pilaProductos.tope.sig
-
             prod ← nodo.valor
-
             Si (prod.precioUnitario > precioMinimo) Entonces
                 Escribir "Codigo: ", prod.codigo,
                          "  Desc: ", prod.descripcion,
                          "  Precio: ", prod.precioUnitario
             FinSi
 
-            // Pasamos a pila auxiliar para luego restaurar
+            // Pasamos a pila auxiliar para restaurar
             nodo.sig ← pilaAux.tope
             pilaAux.tope ← nodo
         FinMientras
@@ -275,7 +255,6 @@ Inicio
         Mientras (pilaAux.tope ≠ Null) Hacer
             nodo ← pilaAux.tope
             pilaAux.tope ← pilaAux.tope.sig
-
             nodo.sig ← pilaProductos.tope
             pilaProductos.tope ← nodo
         FinMientras
