@@ -1,10 +1,10 @@
 #include <iostream>
 #include <string>
-#include <algorithm> // para std::min
+#include <algorithm>
 
 using namespace std;
 
-/* =========  MODELOS  ========= */
+//MODELOS
 
 struct Producto {
     string codigo;
@@ -29,7 +29,7 @@ struct VentaRealizada {
     double montoTotal;
 };
 
-/* =========  PILA DE PRODUCTOS (UEPS)  ========= */
+// PILA DE PRODUCTOS (UEPS)
 
 struct NodoPila {
     Producto dato;
@@ -81,7 +81,7 @@ public:
         cout << "-------------------------------------------\n";
     }
 
-    // Muestra solo productos con precio > precioMin
+    // Productos mayores al mínimo
     void mostrarMayoresA(double precioMin) const {
         cout << "\nProductos con precio mayor a " << precioMin << ":\n";
         NodoPila* aux = tope;
@@ -100,7 +100,7 @@ public:
         if (!hay) cout << "No hay productos que superen ese precio.\n";
     }
 
-    // Venta UEPS de un producto, modificando la pila.
+    // Modificando la pila por la venta
     // Devuelve cantidad efectivamente vendida y monto total.
     void venderProductoUEPS(const string &codProd, int cantidadSolicitada,
                             int &cantidadVendida, double &montoTotal) {
@@ -123,7 +123,7 @@ public:
                 aux.push(p);
         }
 
-        // Regresar todo a la pila original para mantener orden UEPS
+        // Regresar todo a la pila original
         Producto tmp;
         while (!aux.estaVacia()) {
             aux.pop(tmp);
@@ -132,7 +132,7 @@ public:
     }
 };
 
-/* =========  COLA GENERICA PARA ORDENES Y VENTAS  ========= */
+// COLA GENERICA PARA ORDENES Y VENTAS
 
 template <typename T>
 struct NodoCola {
@@ -170,7 +170,7 @@ public:
         return true;
     }
 
-    // Extraer un elemento por clave (por ejemplo, orden urgente)
+    // Extraer un elemento por clave
     bool extraerPor(int clave, bool (*esClave)(const T&, int), T &salida) {
         if (estaVacia()) return false;
 
@@ -197,7 +197,7 @@ public:
     }
 };
 
-/* =========  FUNCIONES DE REPORTE (USAN COPIA DE LA COLA)  ========= */
+// FUNCIONES DE REPORTE (USAN COPIA DE LA COLA)
 
 double calcularVentasPorFecha(Cola<VentaRealizada> ventas, const string &fechaBuscada) {
     double total = 0.0;
@@ -221,7 +221,7 @@ double calcularVentasPorProducto(Cola<VentaRealizada> ventas, const string &codi
     return total;
 }
 
-/* =========  PROGRAMA PRINCIPAL  ========= */
+// PROGRAMA PRINCIPAL
 
 bool esMismaOrden(const OrdenVenta &o, int codigo) {
     return o.codigoOrden == codigo;
@@ -250,7 +250,7 @@ int main() {
         cout << "0. Salir\n";
         cout << "Seleccione opcion: ";
         cin >> opcion;
-        cin.ignore(); // limpiar salto de linea
+        cin.ignore();
 
         if (opcion == 1) {
             Producto p;
@@ -293,17 +293,14 @@ int main() {
                 cout << "\nAtendiendo orden " << o.codigoOrden << "...\n";
                 int cantVendida;
                 double monto;
-                pilaProductos.venderProductoUEPS(o.codigoProducto, o.cantidad,
-                                                 cantVendida, monto);
+                pilaProductos.venderProductoUEPS(o.codigoProducto, o.cantidad, cantVendida, monto);
 
                 if (cantVendida == 0) {
                     cout << "No se pudo atender la orden. No hay stock para el producto.\n";
                 } else if (cantVendida < o.cantidad) {
-                    cout << "Orden atendida parcialmente. Vendidas " << cantVendida
-                         << " de " << o.cantidad << " unidades.\n";
+                    cout << "Orden atendida parcialmente. Vendidas " << cantVendida << " de " << o.cantidad << " unidades.\n";
                 } else {
-                    cout << "Orden atendida completamente. Unidades vendidas: "
-                         << cantVendida << '\n';
+                    cout << "Orden atendida completamente. Unidades vendidas: " << cantVendida << '\n';
                 }
 
                 if (cantVendida > 0) {
@@ -333,8 +330,7 @@ int main() {
                 cout << "\nAtendiendo ORDEN URGENTE " << o.codigoOrden << "...\n";
                 int cantVendida;
                 double monto;
-                pilaProductos.venderProductoUEPS(o.codigoProducto, o.cantidad,
-                                                 cantVendida, monto);
+                pilaProductos.venderProductoUEPS(o.codigoProducto, o.cantidad, cantVendida, monto);
 
                 if (cantVendida == 0) {
                     cout << "No se pudo atender la orden. No hay stock para el producto.\n";
