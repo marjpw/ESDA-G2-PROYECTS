@@ -4,7 +4,7 @@ Este proyecto tiene como objetivo implementar el control de inventarios y órden
 
 ## 1. Registrar Producto en el Inventario (Pila UEPS)
 
-**Entrada:** Datos del producto p, Pila de productos pilaProductos;
+**Entrada:** Datos del producto p, Pila de productos pilaProductos
 **Salida:** pilaProductos actualizada con el nuevo producto en el tope
 
 ```plaintext
@@ -27,8 +27,8 @@ Fin
 
 ## 2. Registrar Orden de Venta (Cola FIFO)
 
-Entrada: Datos de la orden o, Cola de órdenes pendientes colaOrdenes
-Salida: colaOrdenes actualizada con la orden encolada al final
+**Entrada:** Datos de la orden o, Cola de órdenes pendientes colaOrdenes
+**Salida:** colaOrdenes actualizada con la orden encolada al final
 ```plaintext
 Acción RegistrarOrdenVenta (o, colaOrdenes)
 Inicio
