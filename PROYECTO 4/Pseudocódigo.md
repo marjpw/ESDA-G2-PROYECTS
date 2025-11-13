@@ -2,6 +2,9 @@
 
 Este proyecto tiene como objetivo implementar el control de inventarios y órdenes de venta de una tienda de repuestos utilizando exclusivamente estructuras de datos lineales: Pilas (para el inventario bajo el sistema UEPS: último en entrar, primero en salir) y Colas (para el registro y atención de órdenes de venta bajo la política FIFO: primero en entrar, primero en salir).
 
+<img width="884" height="717" alt="image" src="https://github.com/user-attachments/assets/a9b47562-08c7-4b1e-98ec-52e8afd5fb42" />
+
+
 ## 1. Registrar Producto en el Inventario (Pila UEPS)
 
 **Entrada:** Datos del producto = p, Pila de productos = pilaProductos 
