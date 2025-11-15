@@ -17,7 +17,6 @@ struct Nodo {
     Nodo(int val) : valor(val), hijoIzquierdo(nullptr), hermanoDerecho(nullptr) {}
 };
 
-// ---------------------------------------------------------
 //              CLASE ÁRBOL GENERAL (n-ario)
 //     Representación Hijo Izquierdo – Hermano Derecho
 // ---------------------------------------------------------
@@ -38,7 +37,6 @@ private:
         return buscar(n->hermanoDerecho, valorBuscado);
     }
 
-    // ---------------------------------------------------------
     //              RECORRIDO PREORDEN CORRECTO
     //         Nodo → Hijos (de izquierda a derecha)
     // ---------------------------------------------------------
@@ -54,7 +52,6 @@ private:
         }
     }
 
-    // ---------------------------------------------------------
     //              RECORRIDO INORDEN CORRECTO
     //   Primer hijo → Nodo → Demás hijos (HI-HD n-ario)
     // ---------------------------------------------------------
@@ -79,7 +76,6 @@ private:
         }
     }
 
-    // ---------------------------------------------------------
     //              RECORRIDO POSTORDEN CORRECTO
     //            Hijos → Nodo (n-ario HI-HD)
     // ---------------------------------------------------------
@@ -96,7 +92,6 @@ private:
         cout << n->valor << " ";
     }
 
-    // ---------------------------------------------------------
     //          MOSTRAR CAMINOS (Raíz a cada hoja)
     // ---------------------------------------------------------
     void mostrarCaminosRecursivo(Nodo* n, vector<int>& camino) {
@@ -134,7 +129,6 @@ public:
     ArbolGeneral() : raiz(nullptr) {}
     ~ArbolGeneral() { destruir(raiz); }
 
-    // ---------------------------------------------------------
     //                  INSERCIÓN HI-HD
     // ---------------------------------------------------------
     void insertar(int valorNuevo, int valorPadre) {
@@ -179,7 +173,7 @@ public:
         cout << "Nodo " << valorNuevo << " insertado como hijo de " << valorPadre << ".\n";
     }
 
-    // ---------------------------------------------------------
+
     //                 RECORRIDOS PÚBLICOS
     // ---------------------------------------------------------
     void recorridoPreorden() {
@@ -233,7 +227,6 @@ public:
     }
 };
 
-// ---------------------------------------------------------
 //        FUNCIÓN SEGURO PARA LEER ENTEROS
 // ---------------------------------------------------------
 int leerEntero(string mensaje) {
@@ -248,8 +241,6 @@ int leerEntero(string mensaje) {
     return valor;
 }
 
-// ---------------------------------------------------------
-//                       MAIN
 // ---------------------------------------------------------
 int main() {
     ArbolGeneral arbol;
@@ -292,3 +283,4 @@ int main() {
 
     return 0;
 }
+
