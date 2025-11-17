@@ -93,7 +93,7 @@ Inicio
 Fin
 ```
 ---
-## 4. Intercalar Listas L1 y L2 en L3 (Orden Ascendente)
+## 4. Intercalar Listas L1 y L2 en L3 (Orden ascendente)
 
 **Entrada:** `NodoIngreso*` cab1, `NodoIngreso*` cab2  
 **Salida:** `NodoIngreso*` cab3 (lista intercalada)
