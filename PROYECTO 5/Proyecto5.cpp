@@ -6,9 +6,9 @@
 
 using namespace std;
 
-// ---------------------------------------------------------
+
 //          ESTRUCTURA DEL NODO (HIJO - HERMANO)
-// ---------------------------------------------------------
+
 struct Nodo {
     int valor;
     Nodo* hijoIzquierdo;
@@ -19,7 +19,7 @@ struct Nodo {
 
 //              CLASE ÁRBOL GENERAL (n-ario)
 //     Representación Hijo Izquierdo – Hermano Derecho
-// ---------------------------------------------------------
+
 class ArbolGeneral {
 private:
     Nodo* raiz;
@@ -39,7 +39,7 @@ private:
 
     //              RECORRIDO PREORDEN CORRECTO
     //         Nodo → Hijos (de izquierda a derecha)
-    // ---------------------------------------------------------
+   
     void preorden(Nodo* n) {
         if (n == nullptr) return;
 
@@ -54,7 +54,7 @@ private:
 
     //              RECORRIDO INORDEN CORRECTO
     //   Primer hijo → Nodo → Demás hijos (HI-HD n-ario)
-    // ---------------------------------------------------------
+  
     void inorden(Nodo* n) {
         if (n == nullptr) return;
 
@@ -78,7 +78,7 @@ private:
 
     //              RECORRIDO POSTORDEN CORRECTO
     //            Hijos → Nodo (n-ario HI-HD)
-    // ---------------------------------------------------------
+
     void postorden(Nodo* n) {
         if (n == nullptr) return;
 
@@ -93,7 +93,7 @@ private:
     }
 
     //          MOSTRAR CAMINOS (Raíz a cada hoja)
-    // ---------------------------------------------------------
+
     void mostrarCaminosRecursivo(Nodo* n, vector<int>& camino) {
         if (n == nullptr) return;
 
@@ -130,7 +130,7 @@ public:
     ~ArbolGeneral() { destruir(raiz); }
 
     //                  INSERCIÓN HI-HD
-    // ---------------------------------------------------------
+
     void insertar(int valorNuevo, int valorPadre) {
         Nodo* nuevoNodo = new Nodo(valorNuevo);
 
@@ -175,7 +175,7 @@ public:
 
 
     //                 RECORRIDOS PÚBLICOS
-    // ---------------------------------------------------------
+
     void recorridoPreorden() {
         if (raiz == nullptr) { cout << "Árbol vacío.\n"; return; }
         cout << "Preorden: ";
@@ -228,7 +228,7 @@ public:
 };
 
 //        FUNCIÓN SEGURO PARA LEER ENTEROS
-// ---------------------------------------------------------
+
 int leerEntero(string mensaje) {
     int valor;
     cout << mensaje;
@@ -283,4 +283,5 @@ int main() {
 
     return 0;
 }
+
 
