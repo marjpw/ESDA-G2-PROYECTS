@@ -4,181 +4,248 @@ Este proyecto tiene como objetivo implementar el control de inventarios y órden
 
 <img width="1135" height="564" alt="image" src="https://github.com/user-attachments/assets/aefecf20-e340-43d7-b7f6-98d95ce0eca7" />
 
-## 1. Convertidor de expresiones aritméticas: infija a postfija
+## 1. Registro nodo:
 
 ```plaintext
-        Función infijaAPostfija(Cadena expresionInfija) : Vector<Cadena>
-            Inicio
-                Vector<Cadena> tokens ← tokenizar(expresionInfija)
-                Vector<Cadena> salida
-                Pila<Cadena> pilaOperadores
-                
-                Para cada token en tokens Hacer
-                    Si (EsDigito(token[0])) Entonces
-                        salida.agregar(token)
-                    Sino Si (token = "(") Entonces
-                        pilaOperadores.apilar(token)
-                    Sino Si (token = ")") Entonces
-                        Mientras (NO pilaOperadores.estaVacia() Y pilaOperadores.cima() ≠ "(") Hacer
-                            salida.agregar(pilaOperadores.cima())
-                            pilaOperadores.desapilar()
-                        FinMientras
-                        pilaOperadores.desapilar() // Eliminar el paréntesis izquierdo
-                    Sino // Es un operador
-                        Mientras (NO pilaOperadores.estaVacia() Y pilaOperadores.cima() ≠ "(" Y 
-                               getPrecedencia(pilaOperadores.cima()) > getPrecedencia(token)) Hacer
-                            salida.agregar(pilaOperadores.cima())
-                            pilaOperadores.desapilar()
-                        FinMientras
-                        pilaOperadores.apilar(token)
-                    FinSi
-                FinPara
-                
-                Mientras (NO pilaOperadores.estaVacia()) Hacer
-                    salida.agregar(pilaOperadores.cima())
-                    pilaOperadores.desapilar()
-                FinMientras
-                
-                Retornar salida
-            Fin
-        FinFunción
+Registro Nodo
+    Cadena Dato
+    Nodo *HI      // hijo izquierdo
+    Nodo *HD      // hijo derecho
+FinRegistro
+```
+---
+
+## 2. Obtener precedencia
+
+```plaintext
+Función ObtenerPrecedencia(op): Entero
+Inicio
+    Si (op = "^") Retornar(3)
+    Si (op = "*" ˅ op = "/") Retornar(2)
+    Si (op = "+" ˅ op = "-") Retornar(1)
+    Retornar(0)
+Fin
 
 ```
 ---
 
-## 2. Construcción del árbol a partir de expresión aritmética postfija
+## 3. Accion tokenizar
 
 ```plaintext
-        Función construirDesdePostfija(Vector<Cadena> postfija)
-            Inicio
-                Pila<Nodo> pilaNodos
-                
-                Para cada token en postfija Hacer
-                    // Si es un operando (número)
-                    Si (EsDigito(token[0]) O (Longitud(token) > 1 Y token[0] = '-')) Entonces
-                        pilaNodos.apilar(CrearNodo(token))
-                    Sino // Es un operador
-                        Si (pilaNodos.tamaño() < 2) Entonces
-                            Lanzar Error "Expresión postfija inválida"
-                        FinSi
-                        
-                        derecho ← pilaNodos.desapilar()
-                        izquierdo ← pilaNodos.desapilar()
-                        pilaNodos.apilar(CrearNodo(token, izquierdo, derecho))
-                    FinSi
-                FinPara
-                
-                Si (pilaNodos.tamaño() ≠ 1) Entonces
-                    Lanzar Error "La expresión postfija no es válida para construir un árbol"
-                FinSi
-                
-                raiz ← pilaNodos.cima()
-            Fin
-        FinFunción
+Acción Tokenizar(expresion, Tokens[])
+Inicio
+    TokenActual ← ""
+
+    Para cada carácter c en expresion
+        Si (c es espacio) Continuar
+
+        Si (c es dígito ˅ c = '.')
+            TokenActual ← TokenActual + c
+        Sino
+            Si (TokenActual ≠ "")
+                Añadir TokenActual a Tokens
+                TokenActual ← ""
+            FinSi
+
+            Si (c ∈ {+, -, *, /, ^, (, )})
+                Añadir c como token a Tokens
+            FinSi
+        FinSi
+    FinPara
+
+    Si (TokenActual ≠ "")
+        Añadir TokenActual a Tokens
+    FinSi
+Fin
+
 ```
 ---
 
-## 3. Mostrar el árbol construido
+## 4. Pasar de expresión infija a expresión postfija
 
 ```plaintext
-      Función evaluarRecursivo(Nodo nodo) : Real
-            Inicio
-                Si (nodo = NULO) Entonces
-                    Retornar 0
-                FinSi
-                
-                // Si es una hoja, es un operando
-                Si (nodo.izquierda = NULO Y nodo.derecha = NULO) Entonces
-                    Retornar ConvertirAReal(nodo.dato)
-                FinSi
-                
-                // Si no es hoja, es un operador
-                valorIzquierdo ← evaluarRecursivo(nodo.izquierda)
-                valorDerecho ← evaluarRecursivo(nodo.derecha)
-                
-                Si (nodo.dato = "+") Entonces
-                    Retornar valorIzquierdo + valorDerecho
-                Sino Si (nodo.dato = "-") Entonces
-                    Retornar valorIzquierdo - valorDerecho
-                Sino Si (nodo.dato = "*") Entonces
-                    Retornar valorIzquierdo * valorDerecho
-                Sino Si (nodo.dato = "/") Entonces
-                    Si (valorDerecho = 0) Entonces
-                        Lanzar Error "División por cero"
-                    FinSi
-                    Retornar valorIzquierdo / valorDerecho
-                Sino Si (nodo.dato = "^") Entonces
-                    Retornar Potencia(valorIzquierdo, valorDerecho)
-                FinSi
-                
-                Lanzar Error "Operador no válido: " + nodo.dato
-            Fin
-        FinFunción
-        Función imprimirRecursivo(Nodo nodo, Entero espacio)
-            Inicio
-                Si (nodo = NULO) Entonces
-                    Retornar
-                FinSi
-                
-                espacio ← espacio + 5
-                
-                imprimirRecursivo(nodo.derecha, espacio)
-                Escribir ""
-                Para i ← 5 Hasta espacio-1 Hacer
-                    Escribir " "
-                FinPara
-                Escribir nodo.dato
-                imprimirRecursivo(nodo.izquierda, espacio)
-            Fin
-        FinFunción
+Función Infija_A_Postfija(ExpInf): Arreglo de Cadenas
+Inicio
+    Tokens ← vacío
+    Llamar Tokenizar(ExpInf, Tokens)
+
+    Salida ← vacío
+    PilaOper ← pila vacía
+
+    Para cada Token en Tokens
+        Si (Token inicia con dígito)
+            Añadir Token a Salida
+
+        SinoSi (Token = "(")
+            Empilar(PilaOper, Token)
+
+        SinoSi (Token = ")")
+            Mientras (Tope(PilaOper) ≠ "(")
+                Añadir Tope(PilaOper) a Salida
+                Desapilar(PilaOper)
+            FinMientras
+            Desapilar(PilaOper) // eliminar "("
+
+        Sino // es operador
+            Mientras (PilaOper no vacía) Y
+                   (Tope(PilaOper) ≠ "(") Y
+                   (ObtenerPrecedencia(Tope(PilaOper)) > ObtenerPrecedencia(Token))
+                Añadir Tope(PilaOper) a Salida
+                Desapilar(PilaOper)
+            FinMientras
+            Empilar(PilaOper, Token)
+        FinSi
+    FinPara
+
+    Mientras (PilaOper no vacía)
+        Añadir Tope(PilaOper) a Salida
+        Desapilar(PilaOper)
+    FinMientras
+
+    Retornar(Salida)
+Fin
 ```
 ---
 
-## 4. Evaluar el arbol
+## 5. Construcción del árbol desde postfija
 
 ```plaintext
-        Función evaluarRecursivo(Nodo nodo) : Real
-            Inicio
-                Si (nodo = NULO) Entonces
-                    Retornar 0
-                FinSi
-                
-                // Si es una hoja, es un operando
-                Si (nodo.izquierda = NULO Y nodo.derecha = NULO) Entonces
-                    Retornar ConvertirAReal(nodo.dato)
-                FinSi
-                
-                // Si no es hoja, es un operador
-                valorIzquierdo ← evaluarRecursivo(nodo.izquierda)
-                valorDerecho ← evaluarRecursivo(nodo.derecha)
-                
-                Si (nodo.dato = "+") Entonces
-                    Retornar valorIzquierdo + valorDerecho
-                Sino Si (nodo.dato = "-") Entonces
-                    Retornar valorIzquierdo - valorDerecho
-                Sino Si (nodo.dato = "*") Entonces
-                    Retornar valorIzquierdo * valorDerecho
-                Sino Si (nodo.dato = "/") Entonces
-                    Si (valorDerecho = 0) Entonces
-                        Lanzar Error "División por cero"
-                    FinSi
-                    Retornar valorIzquierdo / valorDerecho
-                Sino Si (nodo.dato = "^") Entonces
-                    Retornar Potencia(valorIzquierdo, valorDerecho)
-                FinSi
-                
-                Lanzar Error "Operador no válido: " + nodo.dato
-            Fin
-        FinFunción
+Acción Construir_Desde_Postfija(Postfija[], Raiz)
+Inicio
+    PilaN ← pila vacía
 
-        Función evaluar() : Real
-            Inicio
-                Si (raiz = NULO) Entonces
-                    Lanzar Error "El árbol está vacío"
-                FinSi
-                
-                Retornar evaluarRecursivo(raiz)
-            Fin
-        FinFunción
+    Para cada Token en Postfija
+        Si (Token es operando)
+            p ← nuevo Nodo
+            p.Dato ← Token
+            p.HI ← Nulo
+            p.HD ← Nulo
+            Empilar(PilaN, p)
+
+        Sino // Token es operador
+            Desapilar(PilaN, p2)
+            Desapilar(PilaN, p1)
+
+            p ← nuevo Nodo
+            p.Dato ← Token
+            p.HI ← p1
+            p.HD ← p2
+
+            Empilar(PilaN, p)
+        FinSi
+    FinPara
+
+    Raiz ← Tope(PilaN)
+Fin
+```
+---
+
+## 6. Evaluar recursividad del arbol
+
+```plaintext
+Función EvaluarRecursividad(N): Real
+Inicio
+    Si (N = Nulo)
+        Retornar(0)
+    FinSi
+
+    Si (N.HI = Nulo Y N.HD = Nulo)
+        Retornar(Convertir_A_Real(N.Dato))
+    FinSi
+
+    VI ← Evaluar_Rec(N.HI)
+    VD ← Evaluar_Rec(N.HD)
+
+    Segun N.Dato Hacer
+        Caso "+" : Retornar(VI + VD)
+        Caso "-" : Retornar(VI - VD)
+        Caso "*" : Retornar(VI * VD)
+        Caso "/" :
+                Si (VD = 0) Error("División por cero")
+                Retornar(VI / VD)
+        Caso "^" : Retornar(VI ^ VD)
+        Otro Caso:
+                Error("Operador no válido")
+    FinSegun
+Fin
+
+Función Evaluar_Árbol(Raiz): Real
+Inicio
+    Si (Raiz = Nulo)
+        Error("Árbol vacío")
+    FinSi
+
+    Retornar( Evaluar_Rec(Raiz) )
+Fin
+```
+---
+
+## 7. Impresión del árbol
+
+```plaintext
+Acción Imprimir_Recursivo(N, Espacio)
+Inicio
+    Si (N = Nulo) FinAcción
+
+    Espacio ← Espacio + 5
+
+    Imprimir_Rec(N.HD, Espacio)
+
+    Escribir salto_linea
+    Para i desde 1 hasta Espacio
+         Escribir " "
+    FinPara
+    Escribir N.Dato
+
+    Imprimir_Rec(N.HI, Espacio)
+Fin
+
+Acción Imprimir_Árbol(Raiz)
+Inicio
+    Si (Raiz = Nulo)
+        Escribir "Árbol vacío"
+        FinAcción
+    FinSi
+
+    Escribir "Árbol de expresión (rotado 90 grados)"
+    Escribir "---------------------------------------"
+
+    Imprimir_Recursivo(Raiz, 0)
+
+    Escribir "---------------------------------------"
+Fin
+
+```
+---
+
+## 8. Acción principal
+
+```plaintext
+Accion Principal
+Inicio
+    Escribir "UNMSM - FISI - Estructura de Datos"
+    Escribir "Sexto Proyecto"
+    Escribir "-----------------------------------"
+
+    Escribir "Ingrese una expresión en notación infija: "
+    Leer ExpInfija
+
+    // a) Conversión a postfija
+    Postfija ← Infija_A_Postfija(ExpInfija)
+
+    Escribir "Expresión postfija:"
+    Escribir Postfija
+
+    // b) Construir árbol
+    Declarar Raiz como Nodo
+    Construir_Desde_Postfija(Postfija, Raiz)
+
+    Escribir "Árbol de expresión:"
+    Imprimir_Árbol(Raiz)
+
+    // c) Evaluar
+    Resultado ← Evaluar_Árbol(Raiz)
+    Escribir "Resultado de la evaluación:", Resultado
+Fin
 ```
 ---
