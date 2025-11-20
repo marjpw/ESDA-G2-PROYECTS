@@ -15,7 +15,7 @@ public:
     Nodo* derecha;
 
     // Constructor para un nodo hoja (operando)
-    Nodo(std::string valor) : dato(valor), izquierda(nullptr), derecha(nullptr) {}
+    Nodo(std::string valor) : dato(valor), izquierda(NULL), derecha(NULL) {}
 
     // Constructor para un nodo interno (operador)
     Nodo(std::string valor, Nodo* izq, Nodo* der) : dato(valor), izquierda(izq), derecha(der) {}
@@ -28,12 +28,12 @@ private:
 
     // Función recursiva para evaluar el árbol
     double evaluarRecursivo(Nodo* nodo) {
-        if (nodo == nullptr) {
+        if (nodo == NULL) {
             return 0; // No debería pasar en una expresión válida
         }
 
         // Si es una hoja, es un operando. Convertimos a double y retornamos.
-        if (nodo->izquierda == nullptr && nodo->derecha == nullptr) {
+        if (nodo->izquierda == NULL && nodo->derecha == NULL) {
             return std::stod(nodo->dato);
         }
 
@@ -55,7 +55,7 @@ private:
 
     // Función recursiva para imprimir el árbol (para visualización)
     void imprimirRecursivo(Nodo* nodo, int espacio) {
-        if (nodo == nullptr) return;
+        if (nodo == NULL) return;
         espacio += 5;
 
         imprimirRecursivo(nodo->derecha, espacio);
@@ -67,14 +67,14 @@ private:
 
     // Función para liberar memoria del árbol
     void eliminarRecursivo(Nodo* nodo) {
-        if (nodo == nullptr) return;
+        if (nodo == NULL) return;
         eliminarRecursivo(nodo->izquierda);
         eliminarRecursivo(nodo->derecha);
         delete nodo;
     }
 
 public:
-    ArbolExpresion() : raiz(nullptr) {}
+    ArbolExpresion() : raiz(NULL) {}
     ~ArbolExpresion() {
         eliminarRecursivo(raiz);
     }
@@ -108,7 +108,7 @@ public:
 
     // (c) Evaluar el árbol y mostrar el resultado
     double evaluar() {
-        if (raiz == nullptr) {
+        if (raiz == NULL) {
             throw std::runtime_error("El arbol está vacio.");
         }
         return evaluarRecursivo(raiz);
@@ -116,7 +116,7 @@ public:
 
     // Mostrar el árbol de expresión
     void imprimirArbol() {
-        if (raiz == nullptr) {
+        if (raiz == NULL) {
             std::cout << "El arbol esta vacio." << std::endl;
             return;
         }
