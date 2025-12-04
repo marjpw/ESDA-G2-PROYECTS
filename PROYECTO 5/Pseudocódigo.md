@@ -142,9 +142,6 @@ Inicio
     FinSi
 Fin
 
-    FinSi
-Fin
-
 ```
 ---
 
